@@ -1,7 +1,12 @@
 doctype html
-html
+html(lang='ja')
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(charset='utf-8')
+    link(rel='stylesheet', href='/stylesheets/app.min.css')
+    script(type="text/javascript", src='/javascripts/app.min.js')
+
+    block scripts
+
   body
     block content
