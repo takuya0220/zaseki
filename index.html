@@ -1,0 +1,449 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>タイトル</title>
+    <meta name="description" content="説明文">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="apple-touch-icon" href="icon.png">
+    <!-- favicon.icoはルートディレクトに配置 -->
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="node_modules/leaflet/dist/leaflet.css">
+</head>
+
+<body>
+    <!-- IE9未満への配慮が不要であれば、削除 -->
+    <!--[if lte IE 9]>
+            <p class="browserupgrade">IE9未満用のメッセージ</p>
+        <![endif]-->
+
+    <!-- ここにサイトやアプリのコンテンツ -->
+    <p>コンテンツ</p>
+
+    <script src="node_modules/leaflet/dist/leaflet.js"></script>
+    <script src="js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')
+    </script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+    <div id="map" style="width: 1280px; height: 1024px;"></div>
+    <script>
+        var zoom = 1000;
+
+        function backgroundImage() {
+            var bounds = [
+                [0, 0],
+                [480, 640]
+            ]; // ここでは画像の解像度をboundsに設定する。
+
+            L.imageOverlay('seat.png', bounds).addTo(map); // 背景画像を設定する。
+        }
+
+        function showFloorLayer(map, latlngs) {
+            var bounds = [];
+            latlngs.forEach(function(value) {
+                console.log(value);
+                bounds.push(L.rectangle([value.lat, value.lng], value.options).addTo(map));
+            });
+            return bounds;
+        }
+
+        function floorLayer(map) {
+            var box = [{
+                lat: [0, 0],
+                lng: [-14.65, 32.765],
+                options: {
+                    color: "#ffffff",
+                    weight: 1
+                }
+            }];
+            showFloorLayer(map, box);
+            map.fitBounds([box[0].lat, box[0].lng]); // 描画領域を設定する。
+
+            var weight = 0;
+            var layout = [{
+                lat: [0, 0],
+                lng: [-6.8, 6.5],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [0, 6.5],
+                lng: [-6.8, 7.5],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [0, 7.5],
+                lng: [-6.8, 14.8],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [0, 14.8],
+                lng: [-6.8, 20.8],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [0, 20.8],
+                lng: [-6.8, 26.2],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [0, 26.2],
+                lng: [-6.8, 31.6],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [0, 31.6],
+                lng: [-6.8, 32.765],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [-6.8, 0],
+                lng: [-14.65, 7.5],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [-6.8, 7.5],
+                lng: [-14.65, 14.8],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [-6.8, 14.8],
+                lng: [-14.65, 20.8],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [-6.8, 20.8],
+                lng: [-14.65, 26.2],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [-6.8, 26.2],
+                lng: [-14.65, 31.6],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }, {
+                lat: [-6.8, 31.6],
+                lng: [-14.65, 32.765],
+                options: {
+                    color: "#ffffff",
+                    weight: weight
+                }
+            }];
+            showFloorLayer(map, layout);
+
+            var pillar_weight = {
+                x: 0.85,
+                y: 0.85
+            };
+            var pillar = [{
+                lat: [-8.55 + pillar_weight.y / 2, 1 - pillar_weight.x / 2],
+                lng: [-8.55 - pillar_weight.y / 2, 1 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-14.65 + pillar_weight.y, 1 - pillar_weight.x / 2],
+                lng: [-14.65, 1 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [0, 7.5 - pillar_weight.x / 2],
+                lng: [-pillar_weight.y, 7.5 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-8.55 + pillar_weight.y / 2, 7.5 - pillar_weight.x / 2],
+                lng: [-8.55 - pillar_weight.y / 2, 7.5 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-14.65 + pillar_weight.y, 7.5 - pillar_weight.x / 2],
+                lng: [-14.65, 7.5 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [0, 14.8 - pillar_weight.x / 2],
+                lng: [-pillar_weight.y, 14.8 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-8.55 + pillar_weight.y / 2, 14.8 - pillar_weight.x / 2],
+                lng: [-8.55 - pillar_weight.y / 2, 14.8 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-14.65 + pillar_weight.y, 14.8 - pillar_weight.x / 2],
+                lng: [-14.65, 14.8 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [0, 20.8 - pillar_weight.x / 2],
+                lng: [-pillar_weight.y, 20.8 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-8.55 + pillar_weight.y / 2, 20.8 - pillar_weight.x / 2],
+                lng: [-8.55 - pillar_weight.y / 2, 20.8 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-14.65 + pillar_weight.y, 20.8 - pillar_weight.x / 2],
+                lng: [-14.65, 20.8 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [0, 26.2 - pillar_weight.x / 2],
+                lng: [-pillar_weight.y, 26.2 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-8.55 + pillar_weight.y / 2, 26.2 - pillar_weight.x / 2],
+                lng: [-8.55 - pillar_weight.y / 2, 26.2 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-14.65 + pillar_weight.y, 26.2 - pillar_weight.x / 2],
+                lng: [-14.65, 26.2 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [0, 31.6 - pillar_weight.x / 2],
+                lng: [-pillar_weight.y, 31.6 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-8.55 + pillar_weight.y / 2, 31.6 - pillar_weight.x / 2],
+                lng: [-8.55 - pillar_weight.y / 2, 31.6 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }, {
+                lat: [-14.65 + pillar_weight.y, 31.6 - pillar_weight.x / 2],
+                lng: [-14.65, 31.6 + pillar_weight.x / 2],
+                options: {
+                    color: "#000000",
+                    fillColor: '#000000',
+                    fillOpacity: 1,
+                    weight: 1
+                }
+            }];
+            showFloorLayer(map, pillar);
+
+            var latlngs = [
+                [0, 6.5],
+                [0, 7.5],
+                [0, 14.8],
+                [0, 20.8],
+                [0, 26.2],
+                [0, 32.765],
+            ];
+            var polyline = L.polyline(latlngs, {
+                color: 'black',
+                weight: 3
+            }).addTo(map);
+
+            var latlngs = [
+                [-14.65, 0],
+                [-14.65, 6.5],
+                [-14.65, 7.5],
+                [-14.65, 14.8],
+                [-14.65, 20.8],
+                [-14.65, 26.2],
+                [-14.65, 32.765],
+            ];
+            var polyline = L.polyline(latlngs, {
+                color: 'black',
+                weight: 3
+            }).addTo(map);
+
+            var latlngs = [
+                [0, 32.765],
+                [-8.75, 32.765],
+                [-14.65, 32.765]
+            ];
+            var polyline = L.polyline(latlngs, {
+                color: 'black',
+                weight: 3
+            }).addTo(map);
+
+            var latlngs = [
+                [-6.8, 0],
+                [-14.65, 0]
+            ];
+            var polyline = L.polyline(latlngs, {
+                color: 'black',
+                weight: 3
+            }).addTo(map);
+
+            var latlngs = [
+                [-6.8, 0],
+                [-6.8, 6.5],
+                [0, 6.5],
+            ];
+            var polyline = L.polyline(latlngs, {
+                color: 'black',
+                weight: 3
+            }).addTo(map);
+
+            var latlngs = [
+                [-14.65, 26.2 + pillar_weight.x / 2],
+                [-8.55 - pillar_weight.y / 2, 26.2 + pillar_weight.x / 2],
+                [-8.55 - pillar_weight.y / 2, 20.8],
+            ];
+            var polyline = L.polyline(latlngs, {
+                color: 'black',
+                weight: 3
+            }).addTo(map);
+
+            var latlngs = [
+                [-14.65, 26.2 + pillar_weight.x / 2],
+                [-8.55 - pillar_weight.y / 2, 26.2 + pillar_weight.x / 2],
+                [-8.55 - pillar_weight.y / 2, 20.8],
+            ];
+            var polyline = L.polyline(latlngs, {
+                color: 'black',
+                weight: 3
+            }).addTo(map);
+
+            var latlngs = [
+                [-14.65, 7.5],
+                [-8.55 - pillar_weight.y / 2 , 7.5],
+                [-8.55 - pillar_weight.y / 2, 14.8 - pillar_weight.x / 2],
+                [-14.65, 14.8 - pillar_weight.x / 2],
+            ];
+            var polyline = L.polyline(latlngs, {
+                color: 'black',
+                weight: 3
+            }).addTo(map);
+
+            var latlngs = [
+                [-8.55 + pillar_weight.y / 2, 7.5 + pillar_weight.x / 2],
+                [-8.55 + 2.55, 7.5 + pillar_weight.x / 2],
+                [-8.55 + 2.55, 14.8],
+                [-8.55 + pillar_weight.y / 2, 14.8],
+            ];
+            var polyline = L.polyline(latlngs, {
+                color: 'black',
+                weight: 3
+            }).addTo(map);
+
+            // zoom the map to the polyline
+            // map.fitBounds(polyline.getBounds());
+        }
+
+        var map = L.map('map', {
+            crs: L.CRS.Simple
+        });
+
+        backgroundImage(map);
+        floorLayer(map);
+    </script>
+
+    <!-- Google Analytics: UA-XXXXX-YをあなたのIDに変更 -->
+    <script>
+        window.ga = function() {
+            ga.q.push(arguments)
+        };
+        ga.q = [];
+        ga.l = +new Date;
+        ga('create', 'UA-XXXXX-Y', 'auto');
+        ga('send', 'pageview')
+    </script>
+    <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+</body>
+
+</html>
