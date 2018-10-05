@@ -16,11 +16,13 @@ var paths = {
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/popper.js/dist/umd/popper.min.js',
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
-        'node_modules/leaflet/dist/leaflet.js'
+        'node_modules/leaflet/dist/leaflet.js',
+        'resources/javascripts/zaseki.js'
     ],
     stylesheets: [
         'node_modules/bootstrap/dist/css/bootstrap.min.css',
-        'node_modules/leaflet/dist/leaflet.css'
+        'node_modules/leaflet/dist/leaflet.css',
+        'resources/stylesheets/zaseki.css'
     ],
     images: ''
 };
